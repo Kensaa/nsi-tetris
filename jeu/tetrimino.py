@@ -112,3 +112,19 @@ class Tetrimino:
                 raise TypeError(f"Le paramètre y doit être de type int, pas {type(y)}")
 
             self.__y = y
+
+    def __repr__(self) -> str:
+        # On commence par le nom de la classe et la position du tetrimino
+        resultat = f"Tetrimino({self.__x}, {self.__y})\n"
+
+        # On ajoute la forme
+        for ligne in self.__forme:
+            for bit in ligne:
+                # On choisit le caractère approprié et on le multiplie par deux
+                # pour compenser le fait que les caractères sont plus grands en hauteur
+                resultat += ("\u2800" if bit == 0 else "\u2588") * 2
+
+            resultat += "\n"
+
+        # On renvoie le résultat en enlevant les caractères vides en fin de chaîne
+        return resultat.rstrip("\u2800\n")
