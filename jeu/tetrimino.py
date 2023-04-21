@@ -4,6 +4,8 @@ from typing import Optional, Tuple, Literal
 from enum import Enum
 from pygame.color import Color
 
+from tableaux import tourner
+
 # Définition des types permettant de caractériser un tetrimino
 # La forme d'un tetrimino est représenter par un tuple à deux dimensions
 # où chaque case contient 0 ou 1
@@ -68,6 +70,22 @@ class Tetrimino:
         self.__y = y
         self.__rotation = Rotation.BASE
 
+    def __repr__(self) -> str:
+        # On commence par le nom de la classe et la position du tetrimino
+        resultat = f"Tetrimino({self.__x}, {self.__y})\n"
+
+        # On ajoute la forme
+        for ligne in self.__forme:
+            for bit in ligne:
+                # On choisit le caractère approprié et on le multiplie par deux
+                # pour compenser le fait que les caractères sont plus grands en hauteur
+                resultat += ("\u2800" if bit == 0 else "\u2588") * 2
+
+            resultat += "\n"
+
+        # On renvoie le résultat en enlevant les caractères vides en fin de chaîne
+        return resultat.rstrip("\u2800\n")
+
     def get_forme(self) -> Forme:
         """Renvoie la forme du tetrimino"""
         return self.__forme
@@ -88,7 +106,7 @@ class Tetrimino:
         self,
         x: Optional[int] = None,
         y: Optional[int] = None,
-    ):
+    ) -> None:
         """
         Modifie la position du tetrimino.
         Si un paramètre est laissé vide, la coordonnée correspondante n'est pas modifiée.
@@ -113,18 +131,16 @@ class Tetrimino:
 
             self.__y = y
 
-    def __repr__(self) -> str:
-        # On commence par le nom de la classe et la position du tetrimino
-        resultat = f"Tetrimino({self.__x}, {self.__y})\n"
+    def tourner(self, sens=True) -> None:
+        """
+        Applique une rotation de 90° au tetrimino
 
-        # On ajoute la forme
-        for ligne in self.__forme:
-            for bit in ligne:
-                # On choisit le caractère approprié et on le multiplie par deux
-                # pour compenser le fait que les caractères sont plus grands en hauteur
-                resultat += ("\u2800" if bit == 0 else "\u2588") * 2
+        Args:
+            sens (bool, optional): Le sens de rotation, où True correspond au sens des aiguilles
+        d'une montre et False au sens inverse.
+        """
+        self.__forme = tourner(self.__forme)
 
-            resultat += "\n"
-
-        # On renvoie le résultat en enlevant les caractères vides en fin de chaîne
-        return resultat.rstrip("\u2800\n")
+        # Astuce pour modifier l'état de rotation simplement à l'aide de valeurs numériques
+        k = -1 if sens else 1
+        self.__rotation = Rotation((self.__rotation.value - k) % 4)
