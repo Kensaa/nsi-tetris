@@ -17,12 +17,11 @@ IPS = 60
 
 # Position par défaut d'un tetrimino
 TETR_DEFAUT_X = 3
-TETR_DEFAUT_Y = 17
+TETR_DEFAUT_Y = 7
 
 # Taille de la grille
-GRILLE_LIGNES = 40
+GRILLE_LIGNES = 20
 GRILLE_COLONNES = 10
-GRILLE_LIGNES_VISIBLES = 20
 
 # Caractéristiques des différents tetriminos
 MODELES_TETRIMINOS: Dict[str, Modele] = {
