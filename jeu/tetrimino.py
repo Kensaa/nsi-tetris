@@ -4,6 +4,7 @@ from typing import Optional, Tuple, Literal
 from enum import Enum
 from pygame.color import Color
 
+from erreurs import verifier_type
 from tableaux import tourner
 
 # Définition des types permettant de caractériser un tetrimino
@@ -51,18 +52,13 @@ class Tetrimino:
         y=0,
     ) -> None:
         # Préconditions
-        if not isinstance(modele, tuple):
-            raise TypeError(
-                f"Le modèle du tetrimino doit être un tuple, pas {type(modele)}"
-            )
+        verifier_type("modele", modele, tuple)
+        verifier_type("x", x, int)
 
         if len(modele) != 2:
             raise ValueError(
                 f"Le modèle du tetrimino doit contenir deux éléments, pas {len(modele)}"
             )
-
-        if not isinstance(x, int):
-            raise TypeError(f"Le paramètre x doit être de type int, pas {type(x)}")
 
         # Création des attributs
         self.__forme, self.__couleur = modele
@@ -120,15 +116,11 @@ class Tetrimino:
             TypeError: Le type de y est invalide
         """
         if x is not None:
-            if not isinstance(x, int):
-                raise TypeError(f"Le paramètre x doit être de type int, pas {type(x)}")
-
+            verifier_type("x", x, int)
             self.__x = x
 
         if y is not None:
-            if not isinstance(y, int):
-                raise TypeError(f"Le paramètre y doit être de type int, pas {type(y)}")
-
+            verifier_type("y", y, int)
             self.__y = y
 
     def tourner(self, sens=True) -> None:
