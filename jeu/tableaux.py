@@ -1,6 +1,6 @@
 """Module contenant des fonctions relatives à la gestion de tableaux"""
 
-from typing import Generator, TypeVar, Iterable
+from typing import Generator, Tuple, TypeVar, Iterable
 
 T = TypeVar("T", tuple, list)
 E = TypeVar("E")
@@ -56,7 +56,7 @@ def tourner(tableau: T, sens=True) -> T:
 
 def parcourir(
     iterable: Iterable[Iterable[E]],
-) -> Generator[tuple[E, int, int], None, None]:
+) -> Generator[Tuple[E, int, int], None, None]:
     """
     Permet d'itérer sur tous les élements (de type E) d'une structure itérable à deux dimensions
 
