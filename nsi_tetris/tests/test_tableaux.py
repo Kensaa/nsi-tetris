@@ -34,13 +34,13 @@ class TestTourner(unittest.TestCase):
         tableau2 = [
             [1, 2, 3],
             [4, 5, 6],
-            [7, 8, 9]
+            [7, 8, 9],
         ]
         tableau3 = [
             [1, 2, 3, 4],
             [5, 6, 7, 8],
             [9, 10, 11, 12],
-            [13, 14, 15, 16]
+            [13, 14, 15, 16],
         ]
 
         self.assertEqual(
@@ -55,16 +55,18 @@ class TestTourner(unittest.TestCase):
             [
                 [7, 4, 1],
                 [8, 5, 2],
-                [9, 6, 3]
-            ])
+                [9, 6, 3],
+            ],
+        )
         self.assertEqual(
             tourner(tableau3),
             [
                 [13, 9, 5, 1],
                 [14, 10, 6, 2],
                 [15, 11, 7, 3],
-                [16, 12, 8, 4]
-            ])
+                [16, 12, 8, 4],
+            ],
+        )
 
     def test_antihoraire(self):
         """
@@ -77,13 +79,13 @@ class TestTourner(unittest.TestCase):
         tableau2 = [
             [1, 2, 3],
             [4, 5, 6],
-            [7, 8, 9]
+            [7, 8, 9],
         ]
         tableau3 = [
             [1, 2, 3, 4],
             [5, 6, 7, 8],
             [9, 10, 11, 12],
-            [13, 14, 15, 16]
+            [13, 14, 15, 16],
         ]
 
         self.assertEqual(
@@ -98,7 +100,7 @@ class TestTourner(unittest.TestCase):
             [
                 [3, 6, 9],
                 [2, 5, 8],
-                [1, 4, 7]
+                [1, 4, 7],
             ],
         )
         self.assertEqual(
@@ -107,34 +109,37 @@ class TestTourner(unittest.TestCase):
                 [4, 8, 12, 16],
                 [3, 7, 11, 15],
                 [2, 6, 10, 14],
-                [1, 5, 9, 13]
+                [1, 5, 9, 13],
             ],
         )
 
     def test_erreurs(self):
         """
-        Vérifie que tourner lève bien les bonnes erreurs quand elle est appelée avec le mauvais argument
+        Vérifie que tourner lève bien les bonnes erreurs
         """
         with self.assertRaises(TypeError):
-            tourner('')
+            tourner("")  # type: ignore
 
         with self.assertRaises(TypeError):
             tourner([1, 5, 9])
 
     def test_4_rotations(self):
         """
-        Vérifie qu'un tableau tourné quatre fois dans le même sens est identique au tableau de départ
+        Vérifie qu'un tableau tourné quatre fois dans le même sens est identique à l'original
         """
         tableau = [
             [1, 2],
             [4, 3],
         ]
+
+        # Sens horaire
         copie = deepcopy(tableau)
         for _ in range(4):
-            copie1 = tourner(copie)
+            copie = tourner(copie)
 
         self.assertEqual(tableau, copie)
 
+        # Sens antihoraire
         copie = deepcopy(tableau)
         for _ in range(4):
             copie = tourner(copie, False)
@@ -144,22 +149,33 @@ class TestTourner(unittest.TestCase):
 
 class TestParcourir(unittest.TestCase):
     """Test de la fonction parcourir"""
+
     def test_resultat(self):
-        """Vérifie que la fonction parcours bien le tableau dans le bon ordre, et que les coordonnées de l'element sont bonnes"""
+        """
+        Vérifie que la fonction parcourt bien le tableau dans le bon ordre, \
+            et que les coordonnées des élements sont bonnes
+        """
         tableau = [
-            [1,2,3],
-            [4,5,6],
-            [7,8,9]
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
         ]
 
         self.assertEqual(
             list(parcourir(tableau)),
             [
-                (1,0,0),(2,0,1),(3,0,2),
-                (4,1,0),(5,1,1),(6,1,2),
-                (7,2,0),(8,2,1),(9,2,2)
-            ]
+                (1, 0, 0),
+                (2, 0, 1),
+                (3, 0, 2),
+                (4, 1, 0),
+                (5, 1, 1),
+                (6, 1, 2),
+                (7, 2, 0),
+                (8, 2, 1),
+                (9, 2, 2),
+            ],
         )
+
 
 if __name__ == "__main__":
     unittest.main()

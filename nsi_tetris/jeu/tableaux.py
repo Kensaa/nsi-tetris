@@ -6,7 +6,7 @@ T = TypeVar("T", tuple, list)
 E = TypeVar("E")
 
 
-def tourner(tableau: T, sens=True) -> T:
+def tourner(tableau: T, sens_horaire=True) -> T:
     """
     Permet de tourner un tableau bidimensionnel (remplace la fonction rot90 de numpy).
     Une très bonne explication du code utilisé peut être trouvée à cette adresse:
@@ -14,7 +14,7 @@ def tourner(tableau: T, sens=True) -> T:
 
     Args:
         tableau (T): Une liste ou un tuple à faire tourner
-        sens (bool, optional): Le sens de rotation, où True correspond au sens des aiguilles
+        sens_horaire (bool, optional): Le sens de rotation, où True correspond au sens des aiguilles
         d'une montre et False au sens inverse.
 
     Raises:
@@ -30,12 +30,15 @@ def tourner(tableau: T, sens=True) -> T:
             f"Le paramètre tableau doit être de type list ou tuple, pas {type(tableau)}"
         )
 
+    # Comme la fonction accepte les listes et les tuples, on conserve le type d'origine
+    structure = type(tableau)
+
     try:
         # Rotation du tableau
-        if sens:
-            resultat = map(list, zip(*tableau[::-1]))
+        if sens_horaire:
+            resultat = map(structure, zip(*tableau[::-1]))
         else:
-            lignes = map(list, zip(*tableau))
+            lignes = map(structure, zip(*tableau))
             resultat = reversed(list(lignes))
     except TypeError as erreur:
         # zip() lève une erreur si les éléments ne sont pas itérables,
@@ -49,10 +52,7 @@ def tourner(tableau: T, sens=True) -> T:
         raise erreur
 
     # On renvoie le résultat en respectant le type d'origine
-    if isinstance(tableau, tuple):
-        return tuple(resultat)
-
-    return list(resultat)
+    return structure(resultat)
 
 
 def parcourir(
