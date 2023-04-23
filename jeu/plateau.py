@@ -9,7 +9,8 @@ from tableaux import parcourir
 from tetrimino import Tetrimino
 
 Case = Optional[Color]
-Grille = List[List[Case]]
+Ligne = List[Case]
+Grille = List[Ligne]
 
 
 class Plateau:
@@ -49,6 +50,37 @@ class Plateau:
         y_invalide = y < 0 or y >= self.__lignes
         return x_invalide or y_invalide
 
+    def __deplacer(self, tetrimino: Tetrimino, colonnes: int) -> bool:
+        """
+        Décale horizontalement la position d'un tetrimino, mais uniquement si sa
+        nouvelle position n'est pas obstruée ou invalide dans le contexte de la
+        grille.
+        La fonction renvoie True si la position du tetrimino a été modifiée, et
+        False si le déplacement a échoué.
+
+        Args:
+            tetrimino (Tetrimino): Le tetrimino à déplacer
+            colonnes (int): Le décalage appliqué à la coordonnée x du tetrimino
+
+        Returns:
+            bool: True si la position du tetrimino a été modifiée
+
+        Raises:
+            TypeError: Le type de tetrimino est invalide
+            TypeError: Le type de colonnes est invalide
+        """
+        # Préconditions
+        verifier_type("tetrimino", tetrimino, Tetrimino)
+        verifier_type("colonnes", colonnes, int)
+
+        x_initial = tetrimino.get_position()[0]
+        tetrimino.set_position(x=x_initial + colonnes)
+        if self.est_obstrue(tetrimino):
+            tetrimino.set_position(x=x_initial)
+            return False
+
+        return True
+
     def forme(self) -> Tuple[int, int]:
         """
         Renvoie la forme de la grille dans un tuple au format (lignes, colonnes).
@@ -82,6 +114,7 @@ class Plateau:
         Raises:
             TypeError: La valeur passée en argument n'est pas un tetrimino
         """
+        # Précondition
         verifier_type("tetrimino", tetrimino, Tetrimino)
 
         tetr_x, tetr_y = tetrimino.get_position()
@@ -106,6 +139,7 @@ class Plateau:
         Raises:
             TypeError: La valeur passée en argument n'est pas un tetrimino
         """
+        # Précondition
         verifier_type("tetrimino", tetrimino, Tetrimino)
 
         tetr_x, tetr_y = tetrimino.get_position()
@@ -124,7 +158,107 @@ class Plateau:
             Tuple[int, ...]: Un tuple d'indices correspondant aux lignes pleines
         """
         return tuple(
-            index_ligne
-            for index_ligne in range(self.__lignes)
-            if None not in self.__grille[index_ligne]
+            indice_ligne
+            for indice_ligne in range(self.__lignes)
+            if None not in self.__grille[indice_ligne]
         )
+
+    def effacer_ligne(self, indice: int) -> None:
+        """
+        Efface une ligne de la grille et fait descendre toutes les lignes situées au dessus.
+
+        Args:
+            indice (int): L'indice de la ligne à effacer
+
+        Raises:
+            TypeError: Le type de la valeur passée à indice est invalide
+            ValueError: L'indice se situe en dehors de la grille
+        """
+        # Préconditions
+        verifier_type("indice", indice, int)
+        if not 0 <= indice < self.__lignes:
+            raise ValueError("indice doit correspondre à une ligne de la grille")
+
+        # On efface la ligne
+        ligne_vide: Ligne = [None] * self.__colonnes
+        self.__grille[indice] = ligne_vide
+
+        # On part de l'indice de la ligne effacée et on remonte jusqu'en haut de la
+        # grille pour faire descendre les lignes du dessus
+        for indice_sup in reversed(range(indice)):
+            self.__grille[indice_sup + 1] = self.__grille[indice_sup]
+
+    def deplacer_gauche(self, tetrimino: Tetrimino) -> bool:
+        """
+        Décale un tetrimino d'une case vers la gauche, mais uniquement si sa
+        nouvelle position n'est pas obstruée ou invalide dans le contexte de la
+        grille.
+        La fonction renvoie True si la position du tetrimino a été modifiée, et
+        False si le déplacement a échoué.
+
+        Args:
+            tetrimino (Tetrimino): Le tetrimino à déplacer
+
+        Returns:
+            bool: True si la position du tetrimino a été modifiée
+
+        Raises:
+            TypeError: Le type de tetrimino est invalide
+        """
+        # Précondition
+        verifier_type("tetrimino", tetrimino, Tetrimino)
+
+        return self.__deplacer(tetrimino, -1)
+
+    def deplacer_droite(self, tetrimino: Tetrimino) -> bool:
+        """
+        Décale un tetrimino d'une case vers la droite, mais uniquement si sa
+        nouvelle position n'est pas obstruée ou invalide dans le contexte de la
+        grille.
+        La fonction renvoie True si la position du tetrimino a été modifiée, et
+        False si le déplacement a échoué.
+
+        Args:
+            tetrimino (Tetrimino): Le tetrimino à déplacer
+
+        Returns:
+            bool: True si la position du tetrimino a été modifiée
+
+        Raises:
+            TypeError: Le type de tetrimino est invalide
+        """
+        # Précondition
+        verifier_type("tetrimino", tetrimino, Tetrimino)
+
+        return self.__deplacer(tetrimino, 1)
+
+    def tourner_tetrimino(self, tetrimino: Tetrimino, sens=True) -> bool:
+        """
+        Tourne un tetrimino, mais uniquement si sa nouvelle position n'est pas
+        obstruée ou invalide dans le contexte de la grille.
+        La fonction renvoie True si le tetrimino a été tourné, et False si la
+        rotation a échoué.
+
+        Args:
+            tetrimino (Tetrimino): Le tetrimino à tourner
+            sens (bool, optional): Le sens de rotation, où True correspond au sens des \
+                aiguilles d'une montre et False au sens inverse.
+
+        Returns:
+            bool: True si la rotation du tetrimino a été modifiée
+
+        Raises:
+            TypeError: Le type de tetrimino est invalide
+        """
+        # Précondition
+        verifier_type("tetrimino", tetrimino, Tetrimino)
+        verifier_type("sens", sens, bool)
+
+        tetrimino.tourner(sens)
+
+        # Si la nouvelle position est invalide, on annule en tournant dans l'autre sens
+        if self.est_obstrue(tetrimino):
+            tetrimino.tourner(not sens)
+            return False
+
+        return True
