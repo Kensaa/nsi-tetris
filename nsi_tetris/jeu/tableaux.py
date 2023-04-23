@@ -33,9 +33,10 @@ def tourner(tableau: T, sens=True) -> T:
     try:
         # Rotation du tableau
         if sens:
-            resultat = zip(*tableau[::-1])
+            resultat = map(list, zip(*tableau[::-1]))
         else:
-            resultat = reversed(list(zip(*tableau)))
+            lignes = map(list, zip(*tableau))
+            resultat = reversed(list(lignes))
     except TypeError as erreur:
         # zip() lève une erreur si les éléments ne sont pas itérables,
         # donc on attrape l'erreur pour l'expliquer plus clairement
