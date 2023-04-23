@@ -232,7 +232,7 @@ class Plateau:
 
         return self.__deplacer(tetrimino, 1)
 
-    def tourner_tetrimino(self, tetrimino: Tetrimino, sens=True) -> bool:
+    def tourner_tetrimino(self, tetrimino: Tetrimino, sens_horaire=True) -> bool:
         """
         Tourne un tetrimino, mais uniquement si sa nouvelle position n'est pas
         obstruée ou invalide dans le contexte de la grille.
@@ -241,7 +241,7 @@ class Plateau:
 
         Args:
             tetrimino (Tetrimino): Le tetrimino à tourner
-            sens (bool, optional): Le sens de rotation, où True correspond au sens des \
+            sens_horaire (bool, optional): Le sens de rotation, où True correspond au sens des \
                 aiguilles d'une montre et False au sens inverse.
 
         Returns:
@@ -252,13 +252,13 @@ class Plateau:
         """
         # Précondition
         verifier_type("tetrimino", tetrimino, Tetrimino)
-        verifier_type("sens", sens, bool)
+        verifier_type("sens_horaire", sens_horaire, bool)
 
-        tetrimino.tourner(sens)
+        tetrimino.tourner(sens_horaire)
 
         # Si la nouvelle position est invalide, on annule en tournant dans l'autre sens
         if self.est_obstrue(tetrimino):
-            tetrimino.tourner(not sens)
+            tetrimino.tourner(not sens_horaire)
             return False
 
         return True

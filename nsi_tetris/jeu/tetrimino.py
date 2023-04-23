@@ -123,16 +123,16 @@ class Tetrimino:
             verifier_type("y", y, int)
             self.__y = y
 
-    def tourner(self, sens=True) -> None:
+    def tourner(self, sens_horaire=True) -> None:
         """
         Applique une rotation de 90° au tetrimino
 
         Args:
-            sens (bool, optional): Le sens de rotation, où True correspond au sens des aiguilles \
+            sens_horaire (bool, optional): Le sens de rotation, où True correspond au sens des aiguilles \
                 d'une montre et False au sens inverse.
         """
         self.__forme = tourner(self.__forme)
 
         # Astuce pour modifier l'état de rotation simplement à l'aide de valeurs numériques
-        k = -1 if sens else 1
+        k = -1 if sens_horaire else 1
         self.__rotation = Rotation((self.__rotation.value - k) % 4)
