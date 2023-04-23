@@ -40,6 +40,23 @@ class TestTourner(unittest.TestCase):
             ],
         )
 
+    def test_antihoraire(self):
+        """
+        Vérifie que tourner fonctionne avec un argument valide dans le sens antihoraire
+        """
+        tableau = [
+            [1, 2],
+            [4, 3],
+        ]
+
+        self.assertEqual(
+            tourner(tableau, False),
+            [
+                [2, 3],
+                [1, 4],
+            ],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
