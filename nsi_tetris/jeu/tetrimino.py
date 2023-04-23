@@ -4,8 +4,8 @@ from typing import Optional, Tuple, Literal
 from enum import Enum
 from pygame.color import Color
 
-from erreurs import verifier_type
-from tableaux import tourner
+from .erreurs import verifier_type
+from .tableaux import tourner
 
 # Définition des types permettant de caractériser un tetrimino
 # La forme d'un tetrimino est représenter par un tuple à deux dimensions

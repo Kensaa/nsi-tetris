@@ -3,7 +3,7 @@
 from typing import Dict
 from pygame.color import Color
 
-from tetrimino import Modele
+from .tetrimino import Modele
 
 # Couleurs
 BLANC = Color(255, 255, 255)

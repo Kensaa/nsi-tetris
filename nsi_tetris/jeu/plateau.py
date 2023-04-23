@@ -3,10 +3,10 @@
 from typing import List, Tuple, Optional
 from pygame.color import Color
 
-from erreurs import verif_entier_pos, verifier_type
-from constantes import GRILLE_LIGNES, GRILLE_COLONNES
-from tableaux import parcourir
-from tetrimino import Tetrimino
+from .erreurs import verif_entier_pos, verifier_type
+from .constantes import GRILLE_LIGNES, GRILLE_COLONNES
+from .tableaux import parcourir
+from .tetrimino import Tetrimino
 
 Case = Optional[Color]
 Ligne = List[Case]
