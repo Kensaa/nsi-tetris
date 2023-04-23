@@ -128,8 +128,8 @@ class Tetrimino:
         Applique une rotation de 90° au tetrimino
 
         Args:
-            sens (bool, optional): Le sens de rotation, où True correspond au sens des aiguilles
-        d'une montre et False au sens inverse.
+            sens (bool, optional): Le sens de rotation, où True correspond au sens des aiguilles \
+                d'une montre et False au sens inverse.
         """
         self.__forme = tourner(self.__forme)
 
