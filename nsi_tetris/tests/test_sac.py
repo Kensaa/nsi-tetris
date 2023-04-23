@@ -1,4 +1,4 @@
-"""Module contenant les tests du module tableaux"""
+"""Module contenant les tests du module sac"""
 
 import unittest
 
