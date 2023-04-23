@@ -176,6 +176,14 @@ class TestParcourir(unittest.TestCase):
             ],
         )
 
+    def test_erreurs(self):
+        """Vérifie que parcourir renvoie bien les bonnes erreurs"""
+        with self.assertRaises(TypeError):
+            parcourir([1, 5, 9])  # type: ignore
+
+        with self.assertRaises(TypeError):
+            tourner(8)  # type: ignore
+
 
 if __name__ == "__main__":
     unittest.main()
