@@ -4,6 +4,7 @@ import unittest
 from pygame.color import Color
 
 from nsi_tetris.jeu.plateau import Plateau, Grille
+from nsi_tetris.jeu.constantes import MODELES_TETRIMINOS
 
 C = Color("white")
 N = None
@@ -53,18 +54,8 @@ class TestForme(unittest.TestCase):
 
     def test_resultat(self):
         """Vérifie que la méthode renvoie le bon résultat"""
-        with self.assertRaises(TypeError):
-            Plateau("test", 8)  # type: ignore
-
-        with self.assertRaises(TypeError):
-            Plateau(10, [])  # type: ignore
-
-        with self.assertRaises(ValueError):
-            Plateau(5, -2)
-
-        with self.assertRaises(ValueError):
-            Plateau(-5, 0)
-
+        plat = Plateau(15, 26)
+        self.assertEqual(plat.forme(),(25,26))
 
 class TestGrille(unittest.TestCase):
     """Tests de la méthode grille"""
@@ -88,6 +79,13 @@ class TestGrille(unittest.TestCase):
             ),
         )
 
+class TestEstObstrue(unittest.TestCase):
+    """Tests de la méthode est_obstrue"""
+
+    def test_erreurs(self):
+        """Vérifie que la méthode lève les bonnes erreurs"""
+        with self.assertRaises(TypeError):
+            Plateau(5,5).est_obstrue('') #type: ignore            
 
 if __name__ == "__main__":
     unittest.main()
