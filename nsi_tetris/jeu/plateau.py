@@ -98,8 +98,7 @@ class Plateau:
         Returns:
             Tuple[Tuple[Case]]: Une copie immutable de la grille
         """
-        lignes = (map(tuple, ligne) for ligne in self.__grille)  # type: ignore
-        return tuple(*lignes)
+        return tuple(map(tuple, self.__grille))
 
     def est_obstrue(self, tetrimino: Tetrimino) -> bool:
         """
