@@ -54,6 +54,7 @@ class Tetrimino:
         # Préconditions
         verifier_type("modele", modele, tuple)
         verifier_type("x", x, int)
+        verifier_type("y", y, int)
 
         if len(modele) != 2:
             raise ValueError(
