@@ -1,6 +1,8 @@
 """Module du jeu"""
 
 import sys
+from typing import List
+
 from pygame.time import Clock
 from pygame.surface import Surface
 from pygame.locals import QUIT, KEYDOWN, K_ESCAPE
@@ -25,6 +27,7 @@ class Jeu:
     def __init__(self) -> None:
         self.__plateau = Plateau()
         self.__sac = Sac(list(MODELES_TETRIMINOS.values()))
+        self.__pause = False
         self.__nouveau_tetr()
 
     def __nouveau_tetr(self) -> None:
@@ -40,8 +43,13 @@ class Jeu:
 
         self.__tetr_actuel = tetr
 
-    def afficher(self, surface: Surface) -> None:
+    def afficher(self, surface: Surface, evenements: List[events.Event]) -> None:
         verifier_type("surface", surface, Surface)
+        verifier_type("evenements", evenements, list)
+
+        for evenement in evenements:
+            if evenement.type == KEYDOWN and evenement.key == K_ESCAPE:
+                self.__pause = not self.__pause
 
 
 if __name__ == "__main__":
@@ -49,18 +57,17 @@ if __name__ == "__main__":
     pygame_init()
     fenetre = display.set_mode(TAILLE_FENETRE)
     horloge = Clock()
+    jeu = Jeu()
 
     # Boucle du jeu
-    pause = False
     while True:
-        evenements = events.get()
-        for evenement in evenements:
-            if evenement.type == QUIT:
+        _evenements = events.get()
+        for _evenement in _evenements:
+            if _evenement.type == QUIT:
                 pygame_quit()
                 sys.exit(0)
 
-            if evenement.type == KEYDOWN and evenement.key == K_ESCAPE:
-                pause = not pause
+        jeu.afficher(fenetre, _evenements)
 
         display.update()
         horloge.tick(IPS)
