@@ -275,8 +275,11 @@ class Plateau:
             int: la coordonnée en y de la plus basse position non obstruée pour ce tétrimino
         """
         verifier_type("tetrimino", tetrimino, Tetrimino)
-
-        tetr_y = tetrimino.get_position()[1]
+        position_depart = tetrimino.get_position()[1]
+        tetr_y = position_depart
         while not self.est_obstrue(tetrimino):
             tetr_y+=1
+            tetrimino.set_position(None,tetr_y)
+
+        tetrimino.set_position(None,position_depart)
         return tetr_y
