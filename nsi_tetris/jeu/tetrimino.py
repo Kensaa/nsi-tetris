@@ -131,7 +131,7 @@ class Tetrimino:
             sens_horaire (bool, optional): Le sens de rotation, où True correspond au sens des aiguilles \
                 d'une montre et False au sens inverse.
         """
-        self.__forme = tourner(self.__forme)
+        self.__forme = tourner(self.__forme, sens_horaire)
 
         # Astuce pour modifier l'état de rotation simplement à l'aide de valeurs numériques
         k = -1 if sens_horaire else 1
