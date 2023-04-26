@@ -54,5 +54,26 @@ class TestSetPosition(unittest.TestCase):
         self.assertEqual(tetrimino.get_position(), (0, 9))
 
 
+class TestRepr(unittest.TestCase):
+    """Test de la représentation du tetrimino"""
+
+    def test_resultat(self):
+        """Vérifie que la méthode renvoie le bon résultat"""
+        self.assertEqual(
+            repr(Tetrimino(MODELES_TETRIMINOS["S"])),
+            "Tetrimino(0, 0)\n⠀⠀████⠀⠀\n████",
+        )
+
+        self.assertEqual(
+            repr(Tetrimino(MODELES_TETRIMINOS["I"])),
+            "Tetrimino(0, 0)\n⠀⠀⠀⠀⠀⠀⠀⠀\n████████",
+        )
+
+        self.assertEqual(
+            repr(Tetrimino(MODELES_TETRIMINOS["T"])),
+            "Tetrimino(0, 0)\n⠀⠀██⠀⠀⠀⠀\n██████",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
