@@ -18,7 +18,9 @@ from nsi_tetris.jeu.constantes import (
     TETR_DEFAUT_Y,
     TAILLE_FENETRE,
     IPS,
+    TAILLE_CASE
 )
+from nsi_tetris.jeu.tableaux import parcourir
 
 
 class Jeu:
@@ -62,8 +64,8 @@ class Jeu:
                     self.__plateau.tourner_tetrimino(self.__tetr_actuel, False)
                 if evenement.key == K_SPACE:
                     nouvelle_hauteur = self.__plateau.fantome(self.__tetr_actuel)
-                    self.__tetr_actuel.set_position(None, nouvelle_hauteur)        
-            
+                    self.__tetr_actuel.set_position(None, nouvelle_hauteur)
+        
         if self.__chronometre >= IPS:
             self.__chronometre = 0
 
@@ -75,6 +77,16 @@ class Jeu:
             else:
                 self.__tetr_actuel.set_position(None,position[1] + 1)
 
+        # RENDER
+        #longeur de la grille
+        longueur_grille = self.__plateau.forme()[1] * TAILLE_CASE
+        hauteur_grille = self.__plateau.forme()[0] * TAILLE_CASE
+        #position en x du coin en haut a gauche de la grille
+        debut_x = (TAILLE_FENETRE[0] - longueur_grille) // 2
+        debut_y = TAILLE_FENETRE[1] - hauteur_grille
+
+        for e, x, y in parcourir(self.__plateau.grille()):
+            pass
         self.__chronometre += 1
 
 if __name__ == "__main__":
