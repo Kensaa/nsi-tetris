@@ -98,8 +98,7 @@ class Plateau:
         Returns:
             Tuple[Tuple[Case]]: Une copie immutable de la grille
         """
-        lignes = (map(tuple, ligne) for ligne in self.__grille)  # type: ignore
-        return tuple(*lignes)
+        return tuple(map(tuple, self.__grille))
 
     def est_obstrue(self, tetrimino: Tetrimino) -> bool:
         """
@@ -181,12 +180,15 @@ class Plateau:
 
         # On efface la ligne
         ligne_vide: Ligne = [None] * self.__colonnes
-        self.__grille[indice] = ligne_vide
+        self.__grille[indice] = ligne_vide.copy()
 
         # On part de l'indice de la ligne effacée et on remonte jusqu'en haut de la
         # grille pour faire descendre les lignes du dessus
         for indice_sup in reversed(range(indice)):
             self.__grille[indice_sup + 1] = self.__grille[indice_sup]
+
+        # On supprime la première ligne
+        self.__grille[0] = ligne_vide.copy()
 
     def deplacer_gauche(self, tetrimino: Tetrimino) -> bool:
         """
