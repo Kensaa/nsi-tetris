@@ -5,8 +5,24 @@ from typing import List
 
 from pygame.time import Clock
 from pygame.surface import Surface
-from pygame.locals import QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT, K_DOWN, K_UP, K_z, K_SPACE
-from pygame import event as events, display, Rect, init as pygame_init, quit as pygame_quit
+from pygame.locals import (
+    QUIT,
+    KEYDOWN,
+    K_ESCAPE,
+    K_LEFT,
+    K_RIGHT,
+    K_DOWN,
+    K_UP,
+    K_z,
+    K_SPACE,
+)
+from pygame import (
+    event as events,
+    display,
+    Rect,
+    init as pygame_init,
+    quit as pygame_quit,
+)
 from pygame.draw import rect
 from pygame.color import Color
 from nsi_tetris.jeu.sac import Sac
@@ -19,7 +35,7 @@ from nsi_tetris.jeu.constantes import (
     TETR_DEFAUT_Y,
     TAILLE_FENETRE,
     IPS,
-    TAILLE_CASE
+    TAILLE_CASE,
 )
 from nsi_tetris.jeu.tableaux import parcourir
 
@@ -55,48 +71,76 @@ class Jeu:
             if evenement.type == KEYDOWN:
                 if evenement.key == K_ESCAPE:
                     self.__pause = not self.__pause
+
                 if evenement.key == K_LEFT:
                     self.__plateau.deplacer_gauche(self.__tetr_actuel)
+
                 if evenement.key == K_RIGHT:
                     self.__plateau.deplacer_droite(self.__tetr_actuel)
+
+                if evenement.key == K_DOWN:
+                    self.__chronometre = IPS
+
                 if evenement.key == K_UP:
                     self.__plateau.tourner_tetrimino(self.__tetr_actuel, True)
+
                 if evenement.key == K_z:
                     self.__plateau.tourner_tetrimino(self.__tetr_actuel, False)
+
                 if evenement.key == K_SPACE:
-                    nouvelle_hauteur = self.__plateau.fantome(self.__tetr_actuel)
-                    self.__tetr_actuel.set_position(None, nouvelle_hauteur)
-        
+                    fantome = self.__plateau.fantome(self.__tetr_actuel)
+                    self.__tetr_actuel.set_position(y=fantome)
+                    self.__chronometre = IPS
+
+        # Lorsque le délai est écoulé, on fait descendre ou on verouille le tetrimino
         if self.__chronometre >= IPS:
-            print('clock')
             self.__chronometre = 0
 
             fantome = self.__plateau.fantome(self.__tetr_actuel)
-            print(fantome)
-            position = self.__tetr_actuel.get_position()
-            if position[1] == fantome:
+            tetr_y = self.__tetr_actuel.get_position()[1]
+            if tetr_y == fantome:
                 self.__plateau.verrouiller(self.__tetr_actuel)
                 self.__nouveau_tetr()
             else:
-                self.__tetr_actuel.set_position(None,position[1] + 1)
+                self.__tetr_actuel.set_position(y=tetr_y + 1)
 
-        # RENDER
-        #longeur de la grille
-        forme = self.__plateau.forme()
-        longueur_grille = forme[1] * TAILLE_CASE
-        hauteur_grille = (forme[0]-10) * TAILLE_CASE
-        #position en x du coin en haut a gauche de la grille
-        debut_x = (TAILLE_FENETRE[0] - longueur_grille) // 2
-        #debut_y = TAILLE_FENETRE[1] - hauteur_grille -100
-        debut_y = -100
+        # On affiche l'état du jeu sur la fenêtre
+        lignes, colonnes = self.__plateau.forme()
+        largeur_grille = colonnes * TAILLE_CASE
+        hauteur_grille = lignes * TAILLE_CASE
+
+        debut_x = (TAILLE_FENETRE[0] - largeur_grille) // 2
+        debut_y = (TAILLE_FENETRE[1] - hauteur_grille) // 2
+
+        # Affichage du plateau
         for element, ligne, colonne in parcourir(self.__plateau.grille()):
-            if element is None:
-                color = Color('white')
-            else:
-                color = element
-            case = Rect(debut_x + colonne * TAILLE_CASE+10, debut_y + ligne * TAILLE_CASE+10,TAILLE_CASE,TAILLE_CASE)
-            rect(surface,color,case)
+            couleur = element if element is not None else Color("white")
+            rect_case = Rect(
+                debut_x + colonne * TAILLE_CASE,
+                debut_y + ligne * TAILLE_CASE,
+                TAILLE_CASE,
+                TAILLE_CASE,
+            )
+
+            rect(surface, couleur, rect_case)
+
+        # Affichage du tetrimino en cours de chute
+        couleur_tetr = self.__tetr_actuel.get_couleur()
+        tetr_x, tetr_y = self.__tetr_actuel.get_position()
+        for element, ligne, colonne in parcourir(self.__tetr_actuel.get_forme()):
+            if element != 0:
+                rect_case = Rect(
+                    debut_x + (colonne + tetr_x) * TAILLE_CASE,
+                    debut_y + (ligne + tetr_y) * TAILLE_CASE,
+                    TAILLE_CASE,
+                    TAILLE_CASE,
+                )
+
+                rect(surface, couleur_tetr, rect_case)
+
+        # On incrémente le chronomètre
         self.__chronometre += 1
+
 
 if __name__ == "__main__":
     # Initialisation

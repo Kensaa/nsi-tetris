@@ -32,7 +32,7 @@ class Plateau:
         # On crée la grille, en utilisant la valeur None pour les cases vides
         self.__colonnes = colonnes
         self.__lignes = lignes + 10
-        self.__grille: Grille = [[None] * self.__colonnes] * self.__lignes
+        self.__grille: Grille = [[None] * self.__colonnes for _ in range(self.__lignes)]
 
     def __hors_limites(self, x: int, y: int) -> bool:
         """
@@ -130,7 +130,8 @@ class Plateau:
         return False
 
     def verrouiller(self, tetrimino: Tetrimino) -> None:
-        """Ajoute un tetrimino au contenu de la grille
+        """
+        Ajoute un tetrimino au contenu de la grille
 
         Args:
             tetrimino (Tetrimino): Le tetrimino à poser dans la grille
@@ -187,7 +188,7 @@ class Plateau:
         for indice_sup in reversed(range(indice)):
             self.__grille[indice_sup + 1] = self.__grille[indice_sup]
 
-        # On supprime la première ligne
+        # On efface la première ligne
         self.__grille[0] = ligne_vide.copy()
 
     def deplacer_gauche(self, tetrimino: Tetrimino) -> bool:
@@ -266,20 +267,29 @@ class Plateau:
         return True
 
     def fantome(self, tetrimino: Tetrimino) -> int:
-        """Renvoie la plus basse position non obstruée pour ce tétrimino
+        """
+        Renvoie la plus basse position qu'atteindra un tetrimino si on le laisse descendre
 
         Args:
-            tetrimino (Tetrimino): la tétrimino
+            tetrimino (Tetrimino): Le tetrimino
 
         Returns:
-            int: la coordonnée en y de la plus basse position non obstruée pour ce tétrimino
+            int: La plus grande coordonnée en y non obstruée pour ce tetrimino
         """
+        # Précondition
         verifier_type("tetrimino", tetrimino, Tetrimino)
+
+        # On conserve la position initiale du tetrimino
         position_depart = tetrimino.get_position()[1]
+
+        # On fait descendre le tetrimino jusqu'à ce que sa position soit obstruée
         tetr_y = position_depart
         while not self.est_obstrue(tetrimino):
-            tetr_y+=1
-            tetrimino.set_position(None,tetr_y)
+            tetr_y += 1
+            tetrimino.set_position(None, tetr_y)
 
-        tetrimino.set_position(None,position_depart)
-        return tetr_y
+        # On réinitialise sa position
+        tetrimino.set_position(None, position_depart)
+
+        # On renvoie la dernière position non obstruée
+        return tetr_y - 1
