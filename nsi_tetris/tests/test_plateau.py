@@ -130,6 +130,7 @@ class TestEffacerLigne(unittest.TestCase):
             Plateau(5,5).effacer_ligne(20)
 
     def test_fonctionnement(self):
+        """Vérifie que la méthode fonctionne bien"""
         plateau = depuis_grille([
             [C,C,N,C],
             [N,C,C,N],
