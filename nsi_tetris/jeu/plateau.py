@@ -264,3 +264,19 @@ class Plateau:
             return False
 
         return True
+
+    def fantome(self, tetrimino: Tetrimino) -> int:
+        """Renvoie la plus basse position non obstruée pour ce tétrimino
+
+        Args:
+            tetrimino (Tetrimino): la tétrimino
+
+        Returns:
+            int: la coordonnée en y de la plus basse position non obstruée pour ce tétrimino
+        """
+        verifier_type("tetrimino", tetrimino, Tetrimino)
+
+        tetr_y = tetrimino.get_position()[1]
+        while not self.est_obstrue(tetrimino):
+            tetr_y+=1
+        return tetr_y
