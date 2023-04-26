@@ -137,7 +137,20 @@ class Jeu:
                 )
 
                 rect(surface, couleur_tetr, rect_case)
-
+        
+        # Affichage du fantome
+        fantome_y = self.__plateau.fantome(self.__tetr_actuel)
+        couleur_fantome = Color(couleur_tetr.r,couleur_tetr.g,couleur_tetr.b,100)
+        for element, ligne, colonne in parcourir(self.__tetr_actuel.get_forme()):
+            if element != 0:
+                rect_case = Rect(
+                    debut_x + (colonne + tetr_x) * TAILLE_CASE,
+                    debut_y + (ligne + fantome_y) * TAILLE_CASE,
+                    TAILLE_CASE,
+                    TAILLE_CASE,
+                )
+                rect(surface, couleur_fantome, rect_case)
+                
         # On incrémente le chronomètre
         self.__chronometre += 1
 
