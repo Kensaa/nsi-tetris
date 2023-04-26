@@ -144,5 +144,74 @@ class TestEffacerLigne(unittest.TestCase):
             (N,C,C,N),
             (C,C,C,C)
         ))
+
+class TestDeplacer(unittest.TestCase):
+    """Tests des methodes deplacer_gauche et deplacer_droite"""
+
+    def test_erreurs(self):
+        """Vérifie que les méthodes lèvent les bonnes erreurs"""
+        plateau = Plateau(10,10)
+        with self.assertRaises(TypeError):
+            plateau.deplacer_gauche('') #type: ignore
+
+        with self.assertRaises(TypeError):
+            plateau.deplacer_droite('') #type: ignore
+     
+    def test_gauche(self):
+        """Vérifie que deplacer_gauche fonctionne bien"""
+        plateau = Plateau(10,10)
+        tetrimino = Tetrimino(MODELES_TETRIMINOS['I'])
+
+        plateau.deplacer_gauche(tetrimino)
+        self.assertEqual(tetrimino.get_position()[0],0)
+
+        tetrimino.set_position(5,0)
+        plateau.deplacer_gauche(tetrimino)
+        self.assertEqual(tetrimino.get_position()[0],4)
+
+    def test_droite(self):
+        """Vérifie que deplacer_droite fonctionne bien"""
+        plateau = Plateau(10,10)
+        tetrimino = Tetrimino(MODELES_TETRIMINOS['I'],0)
+
+        plateau.deplacer_droite(tetrimino)
+        self.assertEqual(tetrimino.get_position()[0],1)
+
+        tetrimino.set_position(6,0)
+        plateau.deplacer_droite(tetrimino)
+        self.assertEqual(tetrimino.get_position()[0],6)
+
+class TestTournerTetrimino(unittest.TestCase):
+    """Tests de la methode tourner_tetrimino"""
+
+    def test_erreurs(self):
+        """Vérifie que la méthode lève les bonnes erreurs"""
+        plateau = Plateau(10,10)
+        with self.assertRaises(TypeError):
+            plateau.tourner_tetrimino('',True) #type: ignore
+        
+        with self.assertRaises(TypeError):
+            plateau.tourner_tetrimino(Tetrimino(MODELES_TETRIMINOS['I']),'') #type: ignore
+        
+    def test_fonctionnement(self):
+        """Vérifie que la méthode fonctionne bien"""
+        plateau1 = depuis_grille([
+            [C,C,C,C],
+            [N,N,N,N],
+            [C,C,C,C],
+            [C,C,C,C],
+        ])
+
+        plateau2 = depuis_grille([
+            [C,C,N,C],
+            [N,N,N,N],
+            [C,C,N,C],
+            [C,C,N,C],
+
+        ])
+        tetrimino=Tetrimino(MODELES_TETRIMINOS['I'])
+        self.assertFalse(plateau1.tourner_tetrimino(tetrimino))
+        self.assertTrue(plateau2.tourner_tetrimino(tetrimino))
+
 if __name__ == "__main__":
     unittest.main()
