@@ -6,8 +6,9 @@ from typing import List
 from pygame.time import Clock
 from pygame.surface import Surface
 from pygame.locals import QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT, K_DOWN, K_UP, K_z, K_SPACE
-from pygame import event as events, display, init as pygame_init, quit as pygame_quit
-
+from pygame import event as events, display, Rect, init as pygame_init, quit as pygame_quit
+from pygame.draw import rect
+from pygame.color import Color
 from nsi_tetris.jeu.sac import Sac
 from nsi_tetris.jeu.plateau import Plateau
 from nsi_tetris.jeu.tetrimino import Tetrimino
@@ -67,9 +68,11 @@ class Jeu:
                     self.__tetr_actuel.set_position(None, nouvelle_hauteur)
         
         if self.__chronometre >= IPS:
+            print('clock')
             self.__chronometre = 0
 
             fantome = self.__plateau.fantome(self.__tetr_actuel)
+            print(fantome)
             position = self.__tetr_actuel.get_position()
             if position[1] == fantome:
                 self.__plateau.verrouiller(self.__tetr_actuel)
@@ -79,14 +82,20 @@ class Jeu:
 
         # RENDER
         #longeur de la grille
-        longueur_grille = self.__plateau.forme()[1] * TAILLE_CASE
-        hauteur_grille = self.__plateau.forme()[0] * TAILLE_CASE
+        forme = self.__plateau.forme()
+        longueur_grille = forme[1] * TAILLE_CASE
+        hauteur_grille = (forme[0]-10) * TAILLE_CASE
         #position en x du coin en haut a gauche de la grille
         debut_x = (TAILLE_FENETRE[0] - longueur_grille) // 2
-        debut_y = TAILLE_FENETRE[1] - hauteur_grille
-
-        for e, x, y in parcourir(self.__plateau.grille()):
-            pass
+        #debut_y = TAILLE_FENETRE[1] - hauteur_grille -100
+        debut_y = -100
+        for element, ligne, colonne in parcourir(self.__plateau.grille()):
+            if element is None:
+                color = Color('white')
+            else:
+                color = element
+            case = Rect(debut_x + colonne * TAILLE_CASE+10, debut_y + ligne * TAILLE_CASE+10,TAILLE_CASE,TAILLE_CASE)
+            rect(surface,color,case)
         self.__chronometre += 1
 
 if __name__ == "__main__":
