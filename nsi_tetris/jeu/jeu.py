@@ -5,7 +5,7 @@ from typing import List
 
 from pygame.time import Clock
 from pygame.surface import Surface
-from pygame.locals import QUIT, KEYDOWN, K_ESCAPE
+from pygame.locals import QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT, K_DOWN, K_UP, K_z, K_SPACE
 from pygame import event as events, display, init as pygame_init, quit as pygame_quit
 
 from nsi_tetris.jeu.sac import Sac
@@ -29,6 +29,7 @@ class Jeu:
         self.__sac = Sac(list(MODELES_TETRIMINOS.values()))
         self.__pause = False
         self.__nouveau_tetr()
+        self.__chronometre = 0
 
     def __nouveau_tetr(self) -> None:
         # On crée le prochain tetrimino
@@ -48,9 +49,33 @@ class Jeu:
         verifier_type("evenements", evenements, list)
 
         for evenement in evenements:
-            if evenement.type == KEYDOWN and evenement.key == K_ESCAPE:
-                self.__pause = not self.__pause
+            if evenement.type == KEYDOWN:
+                if evenement.key == K_ESCAPE:
+                    self.__pause = not self.__pause
+                if evenement.key == K_LEFT:
+                    self.__plateau.deplacer_gauche(self.__tetr_actuel)
+                if evenement.key == K_RIGHT:
+                    self.__plateau.deplacer_droite(self.__tetr_actuel)
+                if evenement.key == K_UP:
+                    self.__plateau.tourner_tetrimino(self.__tetr_actuel, True)
+                if evenement.key == K_z:
+                    self.__plateau.tourner_tetrimino(self.__tetr_actuel, False)
+                if evenement.key == K_SPACE:
+                    nouvelle_hauteur = self.__plateau.fantome(self.__tetr_actuel)
+                    self.__tetr_actuel.set_position(None, nouvelle_hauteur)        
+            
+        if self.__chronometre >= IPS:
+            self.__chronometre = 0
 
+            fantome = self.__plateau.fantome(self.__tetr_actuel)
+            position = self.__tetr_actuel.get_position()
+            if position[1] == fantome:
+                self.__plateau.verrouiller(self.__tetr_actuel)
+                self.__nouveau_tetr()
+            else:
+                self.__tetr_actuel.set_position(None,position[1] + 1)
+
+        self.__chronometre += 1
 
 if __name__ == "__main__":
     # Initialisation
