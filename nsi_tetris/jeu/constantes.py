@@ -23,6 +23,8 @@ TETR_DEFAUT_Y = 7
 GRILLE_LIGNES = 20
 GRILLE_COLONNES = 10
 
+SCORES = {1: 100, 2: 300, 3: 500, 4: 800}
+
 # Caractéristiques des différents tetriminos
 MODELES_TETRIMINOS: Dict[str, Modele] = {
     "I": (
