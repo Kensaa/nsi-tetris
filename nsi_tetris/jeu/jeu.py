@@ -170,8 +170,8 @@ class Jeu:
             ))
         
         if self.__perdu:
-            texte_perdu = afficher_texte('PERDU',48, Color('black'))
-            texte_recommencer = afficher_texte("appuyez sur n'importe quelle touche pour recommencer", 24, Color('black'))
+            texte_perdu = afficher_texte('PERDU',48, NOIR)
+            texte_recommencer = afficher_texte("appuyez sur n'importe quelle touche pour recommencer", 24, NOIR)
 
             centre_x1, centre_y1 = texte_perdu.get_rect().center
             centre_x2, centre_y2 = texte_recommencer.get_rect().center
