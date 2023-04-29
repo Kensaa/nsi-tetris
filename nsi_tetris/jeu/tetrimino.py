@@ -11,8 +11,8 @@ from .tableaux import tourner
 # La forme d'un tetrimino est représenter par un tuple à deux dimensions
 # où chaque case contient 0 ou 1
 Bit = Literal[0, 1]
-Ligne = Tuple[Bit, Bit, Bit, Bit]
-Forme = Tuple[Ligne, Ligne, Ligne, Ligne]
+Ligne = Tuple[Bit, ...]
+Forme = Tuple[Ligne, ...]
 Modele = Tuple[Forme, Color]
 
 
@@ -129,8 +129,8 @@ class Tetrimino:
         Applique une rotation de 90° au tetrimino
 
         Args:
-            sens_horaire (bool, optional): Le sens de rotation, où True correspond au sens des aiguilles \
-                d'une montre et False au sens inverse.
+            sens_horaire (bool, optional): Le sens de rotation, où True correspond au sens \
+                des aiguilles d'une montre et False au sens inverse.
         """
         self.__forme = tourner(self.__forme, sens_horaire)
 
