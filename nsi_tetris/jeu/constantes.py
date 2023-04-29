@@ -13,6 +13,7 @@ TRANSPARENT = Color(0, 0, 0, 0)
 # Affichage
 TAILLE_FENETRE = (800, 600)
 TAILLE_CASE = 18
+TAILLE_BORDURE = 8
 IPS = 60
 
 # Position par défaut d'un tetrimino
@@ -23,6 +24,7 @@ TETR_DEFAUT_Y = 7
 GRILLE_LIGNES = 20
 GRILLE_COLONNES = 10
 
+# Le score que rapporte chaque nombre de lignes
 SCORES = {1: 100, 2: 300, 3: 500, 4: 800}
 
 # Caractéristiques des différents tetriminos
