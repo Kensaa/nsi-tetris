@@ -17,10 +17,16 @@ if __name__ == "__main__":
     sys.path.append("..")
 
     from nsi_tetris.jeu.jeu import Jeu
+    from nsi_tetris.jeu.affichage import afficher_tetrimino
+    from nsi_tetris.jeu.tetrimino import Tetrimino
+    from nsi_tetris.jeu.constantes import MODELES_TETRIMINOS
     from nsi_tetris.jeu.constantes import TAILLE_FENETRE, IPS
 
     # Initialisation
     pygame_init()
+    tetr_icon = Tetrimino(MODELES_TETRIMINOS["S"])
+    display.set_caption("nsi-tetris")
+    display.set_icon(afficher_tetrimino(tetr_icon))
     fenetre = display.set_mode(TAILLE_FENETRE)
     horloge = Clock()
     jeu = Jeu()
