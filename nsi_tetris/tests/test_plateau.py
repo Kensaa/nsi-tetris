@@ -56,7 +56,7 @@ class TestForme(unittest.TestCase):
     def test_resultat(self):
         """Vérifie que la méthode renvoie le bon résultat"""
         plat = Plateau(15, 26)
-        self.assertEqual(plat.forme(), (25, 26))
+        self.assertEqual(plat.get_taille(), (25, 26))
 
 
 class TestGrille(unittest.TestCase):
@@ -73,7 +73,7 @@ class TestGrille(unittest.TestCase):
         )
 
         self.assertEqual(
-            plateau.grille(),
+            plateau.get_grille(),
             (
                 (N, N, N),
                 (N, N, C),
@@ -118,7 +118,7 @@ class TestVerrouiller(unittest.TestCase):
         plateau = Plateau(10, 10)
         tetrimino = Tetrimino(MODELES_TETRIMINOS["Z"])
         plateau.verrouiller(tetrimino)
-        self.assertEqual(plateau.grille()[0][0], Color("red"))
+        self.assertEqual(plateau.get_grille()[0][0], Color("red"))
 
 
 class TestEffacerLigne(unittest.TestCase):
@@ -147,7 +147,7 @@ class TestEffacerLigne(unittest.TestCase):
         )
         plateau.effacer_ligne(2)
         self.assertEqual(
-            plateau.grille(),
+            plateau.get_grille(),
             (
                 (N, N, N, N),
                 (C, C, N, C),

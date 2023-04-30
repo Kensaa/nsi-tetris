@@ -81,7 +81,7 @@ class Plateau:
 
         return True
 
-    def forme(self) -> Tuple[int, int]:
+    def get_taille(self) -> Tuple[int, int]:
         """
         Renvoie la forme de la grille dans un tuple au format (lignes, colonnes).
         Le nombre de lignes inclut les 10 lignes supplémentaires en haut de la grille.
@@ -91,7 +91,7 @@ class Plateau:
         """
         return self.__lignes, self.__colonnes
 
-    def grille(self) -> Tuple[Tuple[Case]]:
+    def get_grille(self) -> Tuple[Tuple[Case]]:
         """
         Renvoie l'état actuel de la grille sous la forme d'un tuple de tuples.
 

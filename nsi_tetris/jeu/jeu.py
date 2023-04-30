@@ -150,7 +150,7 @@ class Jeu:
         surface.fill(NOIR)
 
         # On récupère la taille et les coordonnées de la grille
-        lignes, colonnes = self.__plateau.forme()
+        lignes, colonnes = self.__plateau.get_taille()
         largeur_grille = colonnes * TAILLE_CASE
         hauteur_grille = lignes * TAILLE_CASE
 

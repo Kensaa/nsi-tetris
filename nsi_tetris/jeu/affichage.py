@@ -32,11 +32,12 @@ def afficher_plateau(plateau: Plateau) -> Surface:
     # Précondition
     verifier_type("plateau", plateau, Plateau)
 
-    largeur = plateau.forme()[1] * TAILLE_CASE
-    hauteur = plateau.forme()[0] * TAILLE_CASE
+    lignes, colonnes = plateau.get_taille()
+    largeur = colonnes * TAILLE_CASE
+    hauteur = lignes * TAILLE_CASE
     surface = Surface((largeur, hauteur), SRCALPHA)
 
-    for couleur_case, ligne, colonne in parcourir(plateau.grille()):
+    for couleur_case, ligne, colonne in parcourir(plateau.get_grille()):
         if couleur_case is not None:
             rect_case = Rect(
                 colonne * TAILLE_CASE,
