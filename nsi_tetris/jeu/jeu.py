@@ -1,13 +1,11 @@
 """Module du jeu"""
 
-import sys
 from typing import List
 
-from pygame.time import Clock
 from pygame.rect import Rect
 from pygame.surface import Surface
+from pygame import draw, event as events
 from pygame.locals import (
-    QUIT,
     KEYDOWN,
     K_ESCAPE,
     K_LEFT,
@@ -16,13 +14,6 @@ from pygame.locals import (
     K_UP,
     K_z,
     K_SPACE,
-)
-from pygame import (
-    draw,
-    event as events,
-    display,
-    init as pygame_init,
-    quit as pygame_quit,
 )
 
 from nsi_tetris.jeu.sac import Sac
@@ -35,7 +26,6 @@ from nsi_tetris.jeu.constantes import (
     TAILLE_BORDURE,
     TETR_DEFAUT_X,
     TETR_DEFAUT_Y,
-    TAILLE_FENETRE,
     IPS,
     TAILLE_CASE,
     SCORES,
@@ -80,6 +70,15 @@ class Jeu:
             self.__tetr_actuel = tetr
 
     def avancer(self, evenements: List[events.Event]) -> None:
+        """
+        Fait avancer l'état du jeu d'une image en gérant les évènements
+
+        Args:
+            evenements (List[events.Event]): Les évènements pygame à utiliser
+
+        Raises:
+            TypeError: Le type de evenements est invalide
+        """
         # Précondition
         verifier_type("evenements", evenements, list)
 
@@ -143,6 +142,14 @@ class Jeu:
                 self.__tetr_actuel.set_position(y=tetr_y + 1)
 
     def afficher(self, surface: Surface) -> None:
+        """Affiche l'état actuel du jeu sur une surface
+
+        Args:
+            surface (Surface): La surface à utiliser
+
+        Raises:
+            TypeError: Le type de surface est invalide
+        """
         # Précondition
         verifier_type("surface", surface, Surface)
 
@@ -222,25 +229,3 @@ class Jeu:
                 texte_recommencer,
                 rect_recommencer.move(0, 32).topleft,
             )
-
-
-if __name__ == "__main__":
-    # Initialisation
-    pygame_init()
-    fenetre = display.set_mode(TAILLE_FENETRE)
-    horloge = Clock()
-    jeu = Jeu()
-
-    # Boucle du jeu
-    while True:
-        _evenements = events.get()
-        for _evenement in _evenements:
-            if _evenement.type == QUIT:
-                pygame_quit()
-                sys.exit(0)
-
-        jeu.avancer(_evenements)
-        jeu.afficher(fenetre)
-
-        display.update()
-        horloge.tick(IPS)
