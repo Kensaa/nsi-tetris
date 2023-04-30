@@ -13,6 +13,9 @@ from pygame import (
 
 
 if __name__ == "__main__":
+    # Ajout à la variable PYTHONPATH le temps de l'exécution pour pouvoir importer le reste du jeu
+    sys.path.append("..")
+
     from nsi_tetris.jeu.jeu import Jeu
     from nsi_tetris.jeu.constantes import TAILLE_FENETRE, IPS
 
