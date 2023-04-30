@@ -19,8 +19,7 @@ if __name__ == "__main__":
     from nsi_tetris.jeu.jeu import Jeu
     from nsi_tetris.jeu.affichage import afficher_tetrimino
     from nsi_tetris.jeu.tetrimino import Tetrimino
-    from nsi_tetris.jeu.constantes import MODELES_TETRIMINOS
-    from nsi_tetris.jeu.constantes import TAILLE_FENETRE, IPS
+    from nsi_tetris.jeu.constantes import TAILLE_FENETRE, IPS, MODELES_TETRIMINOS
 
     # Initialisation
     pygame_init()
