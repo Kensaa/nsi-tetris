@@ -1,4 +1,7 @@
-"""Module d'affichage"""
+"""
+Le module affichage contient des fonctions permettant d'obtenir des surfaces
+à partir de structures de données comme les tetriminos pour les dessiner à l'écran
+"""
 
 from typing import Optional, Tuple
 

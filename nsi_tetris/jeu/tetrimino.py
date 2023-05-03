@@ -1,7 +1,6 @@
-"""Module définissant les tetriminos"""
+"""Le module tetrimino contient une classe qui représente un tetrimino du jeu"""
 
 from typing import Optional, Tuple, Literal
-from enum import Enum
 from pygame.color import Color
 
 from .erreurs import verifier_type
@@ -16,30 +15,11 @@ Forme = Tuple[Ligne, ...]
 Modele = Tuple[Forme, Color]
 
 
-class Rotation(Enum):
-    """
-    Représente l'état de rotation d'un tetrimino
-
-    - Base est l'état initial
-    - Droite est l'état produit par une rotation dans le sens des aiguilles d'une montre
-      à partir de l'état de base
-    - Gauche est l'état produit par une rotation dans le sens contraire des aiguilles d'une montre
-      à partir de l'état de base
-    - Second est l'état produit par deux rotations successives dans le même sens
-      à partir de l'état de base
-    """
-
-    GAUCHE = 0
-    BASE = 1
-    DROITE = 2
-    SECOND = 3
-
-
 class Tetrimino:
     """
     Représente un tetrimino.
 
-    Un tetrimino est caractérisé par une forme, une couleur, un état de rotation et une position.
+    Un tetrimino est caractérisé par une forme, une couleur et une position.
     Les attributs de position ne sont pas utilisés par les méthodes de cette classe et servent
     uniquement à contenir des informations relatives à un autre contexte comme une grille ou une
     fenêtre par exemple.
@@ -65,7 +45,6 @@ class Tetrimino:
         self.__forme, self.__couleur = modele
         self.__x = x
         self.__y = y
-        self.__rotation = Rotation.BASE
 
     def __repr__(self) -> str:
         # On commence par le nom de la classe et la position du tetrimino
@@ -94,10 +73,6 @@ class Tetrimino:
     def get_position(self) -> Tuple[int, int]:
         """Renvoie la position du tetrimino"""
         return self.__x, self.__y
-
-    def get_rotation(self) -> Rotation:
-        """Renvoie l'état de rotation du tetrimino"""
-        return self.__rotation
 
     def set_position(
         self,
@@ -133,7 +108,3 @@ class Tetrimino:
                 des aiguilles d'une montre et False au sens inverse.
         """
         self.__forme = tourner(self.__forme, sens_horaire)
-
-        # Astuce pour modifier l'état de rotation simplement à l'aide de valeurs numériques
-        k = -1 if sens_horaire else 1
-        self.__rotation = Rotation((self.__rotation.value - k) % 4)

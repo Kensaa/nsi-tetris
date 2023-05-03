@@ -1,7 +1,11 @@
-"""Module contenant des fonctions relatives à la gestion de tableaux"""
+"""
+Le module tableaux contient des fonctions permettant de manipuler les tableaux plus simplement,
+comme la bibliothèque numpy n'est pas utilisée.
+"""
 
 from typing import Generator, Tuple, TypeVar, Iterable
 
+# Définition des types génériques
 T = TypeVar("T", tuple, list)
 E = TypeVar("E")
 

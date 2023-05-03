@@ -1,4 +1,7 @@
-"""Module du plateau de jeu"""
+"""
+Le module plateau contient une classe correspondant à la grille de jeu et contenant des
+méthodes permettant de manipuler l'état d'un tetrimino dans le contexte de la grille.
+"""
 
 from typing import List, Tuple, Optional
 from pygame.color import Color

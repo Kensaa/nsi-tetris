@@ -1,4 +1,7 @@
-"""Module du jeu"""
+"""
+Le module jeu contient la partie "logique" du jeu avec
+les étapes qui sont executées à chaque étape et l'affichage à l'écran.
+"""
 
 from typing import List
 

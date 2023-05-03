@@ -1,4 +1,7 @@
-"""Module du sac dans lequel on pioche aléatoirement les tetriminos"""
+"""
+Le module sac contient une classe représentant un "sac" dans lequel on pioche les tetriminos.
+Les tetriminos sont tous insérés aléatoirement dans le sac à chaque fois qu'il faut en rajouter.
+"""
 
 from typing import List
 from random import shuffle

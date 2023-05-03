@@ -1,4 +1,4 @@
-"""Module de gestion des erreurs pour simplifier les préconditions"""
+"""Le module erreurs contient des fonctions permettant de tester les préconditions plus simplement."""
 
 from typing import Type
 

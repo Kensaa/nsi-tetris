@@ -1,4 +1,7 @@
-"""Module contenant les constantes"""
+"""
+Le module constantes contient les constantes nécessaires au
+bon fonctionnement du jeu afin de pouvoir les modifier plus simplement.
+"""
 
 from typing import Dict
 from pygame.color import Color
